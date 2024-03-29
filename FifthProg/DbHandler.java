@@ -1,50 +1,44 @@
-package com.example.fifthprogram;
+package com.example.fifthpractice;
+
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHandler extends SQLiteOpenHelper {
-
-    private static final int Db_Version = 1;
-    private static final String Db_name="users", Table_name="user", User_id="id", User_name="name", User_password="password";
-
-    public DbHandler(MainActivity context) {
-        super(context, Db_name, null, Db_Version);
+    private static final int Db_version = 1;
+    private final String table_name = "user", user_name = "name", user_password = "password", user_id = "Id";
+    public DbHandler(Context context) {
+        super(context, "users", null, Db_version);
     }
 
-    @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String Create_Table = "CREATE TABLE " + Table_name + "(" + User_id + " INTEGER PRIMARY KEY," + User_name + " VARCHAR," + User_password + " VARCHAR)";
-        sqLiteDatabase.execSQL(Create_Table);
+        String create_table = "CREATE TABLE IF NOT EXISTS " + table_name + "(" + user_id + " INTEGER PRIMARY KEY, " + user_name + " VARCHAR, " + user_password + " VARCHAR);";
+        sqLiteDatabase.execSQL(create_table);
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Table_name);
-        onCreate(sqLiteDatabase);
-    }
-
-    public void addUser(User usr) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public void addUser(User user) {
+        SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(User_name, usr.getName());
-        cv.put(User_password, usr.getPassword());
-        db.insert(Table_name, null, cv);
+        cv.put(user_name, user.getName());
+        cv.put(user_password, user.getPassword());
+        db.insert(table_name, null, cv);
         db.close();
     }
 
-    public int checkUser(User usr) {
+    public int checkUser(User user) {
         int id = -1;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT id FROM user WHERE name = ? and password = ?", new String[] {
-                usr.getName(), usr.getPassword()
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT Id from user WHERE name = ? and password = ?", new String[] {
+                user.getName(), user.getPassword()
         });
-        if (cursor.getCount() > 0) {
+        if(cursor.getCount() > 0) {
             cursor.moveToFirst();
             id = cursor.getInt(0);
             cursor.close();
         }
         return id;
     }
+
 }

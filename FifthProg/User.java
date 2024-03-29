@@ -1,16 +1,10 @@
-package com.example.fifthprogram;
+package com.example.fifthpractice;
 
-class User {
-
+public class User {
     int id;
     String name, password;
-    public User(String name, String password) {
-        this.name = name;
-        this.password = password;
-    }
 
-    public User(int id, String name, String password) {
-        this.id = id;
+    public User(String name, String password) {
         this.name = name;
         this.password = password;
     }
@@ -18,6 +12,7 @@ class User {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -25,6 +20,7 @@ class User {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -32,7 +28,10 @@ class User {
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }
