@@ -1,0 +1,50 @@
+{
+    "name": "Login Page",
+    "short_name": "Login",
+    "description": "Login page",
+    "start_url": "/index.html",
+    "id": "?homescreen=1",
+    "display": "standalone",
+    "display_override": ["window-controls-overlay"],
+    "theme-color": "#2343da",
+    "background_color": "#2134ad",
+    "scope": "/",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "images/icons/icon-72x72.png",
+            "sizes": "72x72",
+            "type": "image/png"
+        },
+        {
+            "src": "images/icons/icon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "images/screenshot1.png",
+            "sizes": "540x720",
+            "type": "image/png",
+            "form_factor":"narrow"
+        },
+        {
+            "src": "images/screenshot2.png",
+            "sizes": "720x540",
+            "type": "image/png",
+            "form_factor":"wide"
+        }
+    ],
+    "protocol_handlers": [
+        {
+            "protocol": "web+jng1",
+            "url": "/lookup?type=%s"
+        },
+        {
+            "protocol": "web+jng1store",
+            "url": "/shop?for=%s"
+        }
+    ],
+    "splash_pages": null 
+}
