@@ -52,20 +52,24 @@ public class MainActivity extends AppCompatActivity {
                 //check user existence in DB
                 int id = userExists(new User(name, pass));
 
-                if (id == -1) {
-                    Snackbar.make(view, "User " + name + " does not exist or password incorrect", Snackbar.LENGTH_SHORT).show();
-                }
-                else {
+                if (id != -1) {
                     Snackbar.make(view, "User " + name + " exists", Snackbar.LENGTH_SHORT).show();
                     Intent i = new Intent(MainActivity.this, MainActivity2.class);
                     i.putExtra("Username", name);
                     startActivity(i);
                 }
+                else {
+                    Snackbar.make(view, "User " + name + " does not exist or password incorrect", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
+
+        db = new DbHandler(MainActivity.this);
+        db.addUser(new User("abc","1234"));
     }
 
     public int userExists(User user) {
+
         return db.checkUser(user);
     }
 }

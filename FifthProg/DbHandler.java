@@ -18,8 +18,14 @@ public class DbHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(create_table);
     }
 
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + table_name);
+        onCreate(sqLiteDatabase);
+    }
+
     public void addUser(User user) {
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(user_name, user.getName());
         cv.put(user_password, user.getPassword());
@@ -27,16 +33,21 @@ public class DbHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public int checkUser(User user) {
+    public int checkUser(User usr) {
         int id = -1;
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT Id from user WHERE name = ? and password = ?", new String[] {
-                user.getName(), user.getPassword()
-        });
-        if(cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            id = cursor.getInt(0);
-            cursor.close();
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery("SELECT Id from user WHERE name = ? and password = ?", new String[]{
+                    usr.getName(), usr.getPassword()
+            });
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                id = cursor.getInt(0);
+                cursor.close();
+            }
+        }
+        catch (Exception e) {
+            return id;
         }
         return id;
     }
